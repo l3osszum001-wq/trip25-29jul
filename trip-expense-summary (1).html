@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>สรุปค่าใช้จ่าย ทริป 25–29 กรกฎาคม</title>
+<link href="https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;600;700&family=Sarabun:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f1117;
+    --surface: #181c27;
+    --card: #1e2333;
+    --border: #2a3050;
+    --accent: #f7c948;
+    --accent2: #e87d3e;
+    --text: #e8eaf0;
+    --muted: #7a8299;
+    --green: #4ecca3;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Sarabun', sans-serif;
+    min-height: 100vh;
+    padding: 2.5rem 1.5rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Background decoration */
+  body::before {
+    content: '';
+    position: fixed;
+    top: -200px; right: -200px;
+    width: 600px; height: 600px;
+    background: radial-gradient(circle, rgba(247,201,72,0.07) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  body::after {
+    content: '';
+    position: fixed;
+    bottom: -150px; left: -150px;
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, rgba(78,204,163,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .wrapper {
+    max-width: 640px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  /* Header */
+  .header {
+    text-align: center;
+    margin-bottom: 2.5rem;
+    animation: fadeDown 0.6s ease both;
+  }
+
+  .trip-badge {
+    display: inline-block;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #111;
+    font-family: 'Prompt', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.35rem 1rem;
+    border-radius: 100px;
+    margin-bottom: 1rem;
+  }
+
+  h1 {
+    font-family: 'Prompt', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #fff;
+  }
+
+  .subtitle {
+    margin-top: 0.5rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  /* Divider */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border), transparent);
+    margin: 1.5rem 0;
+  }
+
+  /* Section */
+  .section {
+    margin-bottom: 1.5rem;
+    animation: fadeUp 0.5s ease both;
+  }
+  .section:nth-child(2) { animation-delay: 0.1s; }
+  .section:nth-child(3) { animation-delay: 0.2s; }
+  .section:nth-child(4) { animation-delay: 0.3s; }
+
+  .section-label {
+    font-family: 'Prompt', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+    padding-left: 0.25rem;
+  }
+
+  /* Card */
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* Transport & Hotel Hero */
+  .hero-card {
+    background: linear-gradient(135deg, #1e2640 0%, #1a2535 100%);
+    border: 1px solid #2e3a5a;
+    border-radius: 16px;
+    padding: 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .hero-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .hero-item .icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .hero-item .label {
+    font-size: 0.8rem;
+    color: var(--muted);
+  }
+
+  .hero-item .source {
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 600;
+  }
+
+  .hero-item .amount {
+    font-family: 'Prompt', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #fff;
+  }
+
+  .hero-item .per-person {
+    font-size: 0.78rem;
+    color: var(--green);
+    font-weight: 500;
+  }
+
+  .hero-divider {
+    width: 1px;
+    background: var(--border);
+    position: absolute;
+    top: 1.5rem; bottom: 1.5rem; left: 50%;
+  }
+
+  /* Row items */
+  .row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.9rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.15s;
+  }
+  .row:last-child { border-bottom: none; }
+  .row:hover { background: rgba(255,255,255,0.025); }
+
+  .row-left {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .row-icon {
+    width: 36px; height: 36px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1rem;
+    flex-shrink: 0;
+  }
+
+  .row-name {
+    font-size: 0.95rem;
+    color: var(--text);
+  }
+
+  .row-note {
+    font-size: 0.75rem;
+    color: var(--muted);
+    margin-top: 0.1rem;
+  }
+
+  .row-amount {
+    font-family: 'Prompt', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: #fff;
+  }
+
+  .row-amount span {
+    font-size: 0.7rem;
+    font-weight: 400;
+    color: var(--muted);
+    margin-left: 0.25rem;
+  }
+
+  /* Food grid */
+  .food-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+  }
+
+  .food-item {
+    padding: 1rem 0.75rem;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .food-item:nth-child(4n) { border-right: none; }
+  .food-item:nth-last-child(-n+4) { border-bottom: none; }
+
+  .food-item .day-label {
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  .food-item .food-amount {
+    font-family: 'Prompt', sans-serif;
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--accent2);
+  }
+
+  .food-item .food-unit {
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 0.15rem;
+  }
+
+  /* Total card */
+  .total-card {
+    background: linear-gradient(135deg, #1f2940, #182033);
+    border: 1.5px solid var(--accent);
+    border-radius: 20px;
+    padding: 1.75rem;
+    position: relative;
+    overflow: hidden;
+    animation: fadeUp 0.5s ease 0.4s both;
+  }
+
+  .total-card::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 180px; height: 180px;
+    background: radial-gradient(circle, rgba(247,201,72,0.12), transparent 70%);
+    pointer-events: none;
+  }
+
+  .total-label {
+    font-family: 'Prompt', sans-serif;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 0.5rem;
+  }
+
+  .total-amount {
+    font-family: 'Prompt', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1;
+  }
+
+  .total-amount .currency {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: var(--muted);
+    vertical-align: top;
+    margin-top: 0.5rem;
+    display: inline-block;
+    margin-right: 0.25rem;
+  }
+
+  .total-sub {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255,255,255,0.08);
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .total-sub-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+  }
+
+  .total-sub-row .sub-label { color: var(--muted); }
+  .total-sub-row .sub-val { color: var(--text); font-weight: 500; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+    animation: fadeUp 0.5s ease 0.5s both;
+  }
+
+  /* Animations */
+  @keyframes fadeDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+</style>
+</head>
+<body>
+<div class="wrapper">
+
+  <!-- Header -->
+  <div class="header">
+    <div class="trip-badge">✈️ Trip Summary</div>
+    <h1>สรุปค่าใช้จ่ายทริป</h1>
+    <p class="subtitle">25 – 29 กรกฎาคม · ต่อคน</p>
+  </div>
+
+  <!-- Flight + Hotel -->
+  <div class="section">
+    <div class="section-label">✈️ เดินทาง & ที่พัก</div>
+    <div class="hero-card">
+      <div class="hero-item">
+        <div class="icon">✈️</div>
+        <div class="label">ตั๋วบิน</div>
+        <div class="source">Shopee Air</div>
+        <div class="amount">1,500</div>
+        <div class="per-person">ต่อคน · 25 ก.ค.</div>
+      </div>
+      <div style="width:1px; background:var(--border); margin: 0.25rem 0;"></div>
+      <div class="hero-item">
+        <div class="icon">🏨</div>
+        <div class="label">ที่พัก (Praso)</div>
+        <div class="source">Agoda · 25–29 ก.ค.</div>
+        <div class="amount">4,300</div>
+        <div class="per-person">ราคาเต็ม (4 คืน)</div>
+        <div class="per-person" style="color:var(--accent); margin-top:0.2rem;">รวมบิน ÷ 2 = 2,900/คน</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Other expenses -->
+  <div class="section">
+    <div class="section-label">🧾 ค่าใช้จ่ายระหว่างทริป</div>
+    <div class="card">
+      <div class="row">
+        <div class="row-left">
+          <div class="row-icon">🚂</div>
+          <div>
+            <div class="row-name">ค่ารถไฟ</div>
+            <div class="row-note">ต่อคน</div>
+          </div>
+        </div>
+        <div class="row-amount">350 <span>บาท</span></div>
+      </div>
+      <div class="row">
+        <div class="row-left">
+          <div class="row-icon">🧴</div>
+          <div>
+            <div class="row-name">ของใช้</div>
+            <div class="row-note">สบู่, ยาสระผม</div>
+          </div>
+        </div>
+        <div class="row-amount">100 <span>บาท</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Food -->
+  <div class="section">
+    <div class="section-label">🍜 ค่าอาหาร (ต่อคน / วัน)</div>
+    <div class="card">
+      <div class="food-grid">
+        <div class="food-item">
+          <div class="day-label">วันที่ 1</div>
+          <div class="food-amount">200</div>
+          <div class="food-unit">บาท</div>
+        </div>
+        <div class="food-item">
+          <div class="day-label">วันที่ 2</div>
+          <div class="food-amount">200</div>
+          <div class="food-unit">บาท</div>
+        </div>
+        <div class="food-item">
+          <div class="day-label">วันที่ 3</div>
+          <div class="food-amount">200</div>
+          <div class="food-unit">บาท</div>
+        </div>
+        <div class="food-item">
+          <div class="day-label">วันที่ 4</div>
+          <div class="food-amount">200</div>
+          <div class="food-unit">บาท</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Total -->
+  <div class="total-card">
+    <div class="total-label">รวมทั้งหมด (ต่อคน)</div>
+    <div class="total-amount">
+      <span class="currency">฿</span>4,150
+    </div>
+    <div class="total-sub">
+      <div class="total-sub-row">
+        <span class="sub-label">✈️ บิน + 🏨 ที่พัก</span>
+        <span class="sub-val">2,900 บาท</span>
+      </div>
+      <div class="total-sub-row">
+        <span class="sub-label">🚂 รถไฟ</span>
+        <span class="sub-val">350 บาท</span>
+      </div>
+      <div class="total-sub-row">
+        <span class="sub-label">🍜 อาหาร (4 วัน)</span>
+        <span class="sub-val">800 บาท</span>
+      </div>
+      <div class="total-sub-row">
+        <span class="sub-label">🧴 ของใช้</span>
+        <span class="sub-val">100 บาท</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer">
+    สรุปจากข้อมูลทริป 25–29 กรกฎาคม · ราคาต่อคน
+  </div>
+
+</div>
+</body>
+</html>
